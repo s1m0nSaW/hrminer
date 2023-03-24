@@ -2,22 +2,18 @@ import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
 import checkAuth from './utils/checkAuth.js';
+import { registerValidator, applicantValidator, loginValidator } from './utils/validator.js';
+import handleValidationErrors from './utils/handleValidationErrors.js';
 
-import * as UserController from './controllers/UserController.js';
-import * as BusinessController from './controllers/BusinessController.js';
+import * as EmployerController from './controllers/EmployerController.js';
+import * as ApplicantController from './controllers/ApplicantController.js';
 
-const {
-    MONGO_USERNAME,
-    MONGO_PASSWORD,
-    MONGO_HOSTNAME,
-    MONGO_PORT,
-    MONGO_DB
-  } = process.env;
+dotenv.config()
 
 const port = process.env.PORT || 5000
-
-const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
 
 mongoose.set("strictQuery", false);
 
@@ -52,20 +48,15 @@ app.post('/upload', upload.single('image'), (req,res) => {
     });
 });
 
-app.post('/auth/login', UserController.login);
-app.post('/auth/register/:params', checkAuth, UserController.register);
-app.get('/auth/me/:params', checkAuth, UserController.getMe);
-app.get('/auth/users', UserController.getAll);
-app.patch('/auth/:id',UserController.update);
-app.patch('/auth/new/:params', checkAuth, UserController.newGame);
-app.delete('/auth/:id',UserController.remove);
+app.post('/auth/register/:origin', registerValidator, handleValidationErrors, EmployerController.register);
+app.post('/auth/login', loginValidator, handleValidationErrors, EmployerController.login);
+app.get('/auth/me', checkAuth, EmployerController.getMe);
+app.patch('/auth/update', checkAuth, EmployerController.updatePositions);
+app.delete('/auth/:id', checkAuth, EmployerController.remove);
 
-app.get('/bizs', BusinessController.getAll);
-app.get('/bizs/:id',BusinessController.getOne);
-app.post('/bizs',BusinessController.create);
-app.delete('/bizs/:id',BusinessController.remove);
-app.patch('/bizs/:id',BusinessController.update);
-
+app.get('/applicants', checkAuth, ApplicantController.getAll);
+app.post('/applicants', applicantValidator, handleValidationErrors, ApplicantController.create);
+app.delete('/applicants/:id', checkAuth, ApplicantController.remove);
 
 app.listen(port, (err) => {
     if (err) {
