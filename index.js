@@ -15,13 +15,13 @@ dotenv.config()
 
 const port = process.env.PORT || 5000
 
-mongoose.set("strictQuery", false);
+//mongoose.set("strictQuery", false);
 
-const mongooseUrl = `mongodb://localhost:27017`
+const mongooseUrl = `mongodb://0.0.0.0:27017`
 const url1 = `mongodb://finfreedb:27017/admin`
 
 mongoose
-    .connect(`mongodb://localhost:27017/hrminer`)
+    .connect(`mongodb://0.0.0.0:27017/hrminer`)
     .then(() => console.log('DB ok'))
     .catch((err) => console.log('DB error ' + err));
 
@@ -48,15 +48,17 @@ app.post('/upload', upload.single('image'), (req,res) => {
     });
 });
 
-app.post('/auth/register/:origin', registerValidator, handleValidationErrors, EmployerController.register);
+app.post('/auth/register', registerValidator, handleValidationErrors, EmployerController.register);
 app.post('/auth/login', loginValidator, handleValidationErrors, EmployerController.login);
 app.get('/auth/me', checkAuth, EmployerController.getMe);
 app.patch('/auth/update', checkAuth, EmployerController.updatePositions);
 app.delete('/auth/:id', checkAuth, EmployerController.remove);
 
+app.get('/test/:id', EmployerController.getEmployer);
 app.get('/applicants', checkAuth, ApplicantController.getAll);
 app.post('/applicants', applicantValidator, handleValidationErrors, ApplicantController.create);
 app.delete('/applicants/:id', checkAuth, ApplicantController.remove);
+app.get('/create-pdf', ApplicantController.getDocument);
 
 app.listen(port, (err) => {
     if (err) {

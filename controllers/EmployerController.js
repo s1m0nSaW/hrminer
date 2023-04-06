@@ -15,11 +15,11 @@ export const register = async (req, res) => {
         const hash = await bcrypt.hash(password, salt)
 
         const doc = new EmployerModel({
+            name: req.body.fullName,
             email: req.body.email,
             passwordHash: hash,
             applicants: req.body.applicants,
             positions: req.body.positions,
-            origin: req.params.origin,
         });
 
         const user = await doc.save();
@@ -55,17 +55,10 @@ export const updatePositions = async (req, res) => {
             }
         },{ returnDocument: "after" });
 
-        const token = jwt.sign({
-            _id: user._id,
-        }, secret, {
-            expiresIn: '30d',
-        });
-
         const { passwordHash, ...userData } = user._doc;
 
         res.json({
-            ...userData,
-            token
+            ...userData
         });
 
     } catch (err) {
@@ -125,6 +118,27 @@ export const getMe = async (req, res) => {
             })
         }
         const { passwordHash, ...userData } = user._doc;
+
+        res.json(userData);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Нет доступа',
+        });
+    }
+};
+
+export const getEmployer = async (req, res) => {
+    try {
+        const user = await EmployerModel.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({
+                message: 'Пользователь не найден',
+            })
+        }
+        const { passwordHash, email, ...userData } = user._doc;
 
         res.json(userData);
 

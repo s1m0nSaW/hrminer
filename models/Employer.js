@@ -6,6 +6,10 @@ const EmployerSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    name:{
+        type: String,
+        required: true,
+    },
     passwordHash:{
         type: String,
         required: true,
@@ -14,7 +18,6 @@ const EmployerSchema = new mongoose.Schema({
         type: Array,
         default: [],
     },
-    origin: String,
 },{
     timestamps:true,
 },

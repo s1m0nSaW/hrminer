@@ -8,8 +8,6 @@ export const registerValidator = [
 export const applicantValidator = [
     body('email','Неверный формат почты').isEmail(),
     body('name','Имя должно быть минимум 3 символа').isLength({ min: 3}),
-    body('phone', 'Неверный номер').isMobilePhone(),
-    body('position', 'Невреная должность').isString(),
 ]
 
 export const loginValidator = [
