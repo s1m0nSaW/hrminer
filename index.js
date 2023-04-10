@@ -21,7 +21,7 @@ const mongooseUrl = `mongodb://0.0.0.0:27017`
 const url1 = `mongodb://finfreedb:27017/admin`
 
 mongoose
-    .connect(`mongodb://0.0.0.0:27017/hrminer`)
+    .connect(`mongodb://finfreedb:27017/hrminer`)
     .then(() => console.log('DB ok'))
     .catch((err) => console.log('DB error ' + err));
 
