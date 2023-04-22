@@ -22,7 +22,7 @@ const mongooseUrl = `mongodb://0.0.0.0:27017`
 const url1 = `mongodb://finfreedb:27017/admin`
 
 mongoose
-    .connect(`mongodb://finfreedb:27017/hrminer`)
+    .connect(`mongodb://mongo:27017/admin`, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('DB ok'))
     .catch((err) => console.log('DB error ' + err));
 
