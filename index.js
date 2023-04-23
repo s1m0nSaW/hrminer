@@ -65,7 +65,7 @@ app.post('/create-payment', async (req, res) => {
 
     // Задаем параметры запроса к API ЮKassa
     const apiUrl = 'https://api.yookassa.ru/v3/payments';
-    const auth = `${process.env.YOOKASSA_SHOP_ID}:${process.env.YOOKASSA_SECRET_KEY}`;
+    const auth = `210416:live_zRQmjLk6PKuj-2UraISLLHmJqnAtHMmw1ZRsLNER4iI`;
     const headers = {
         'Idempotence-Key': req.body.id,
         'Content-Type': 'application/json',
