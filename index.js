@@ -81,7 +81,7 @@ app.post('/create-payment', async (req, res) => {
         capture: true,
         confirmation: {
             type: 'redirect',
-            return_url: `https://hrminer.ru/api/create-pdf?name=${req.body.name}&phone=${req.body.phone}&email=${req.body.email}&mbtiType=${req.body.mbtiType}`
+            return_url: `https://hrminer.ru`
         },
         description: `Заказ на ${req.body.name}`
     };
