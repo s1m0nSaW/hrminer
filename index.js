@@ -61,8 +61,8 @@ app.delete('/applicants/:id', checkAuth, ApplicantController.remove);
 app.get('/create-pdf', ApplicantController.getDocument);
 
 const checkout = new YooCheckout({
-    shopId: process.env.YOOKASSA_SHOP_ID,
-    secretKey: process.env.YOOKASSA_SECRET_KEY
+    shopId: '210416',
+    secretKey: 'live_zRQmjLk6PKuj-2UraISLLHmJqnAtHMmw1ZRsLNER4iI'
   });
 
 app.post('/create-payment', async (req, res) => {
