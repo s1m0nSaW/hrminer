@@ -75,10 +75,12 @@ app.post('/create-payment', async (req, res) => {
         payment_method_data: {
             type: 'bank_card'
         },
+        capture:true,
         confirmation: {
             type: 'redirect',
-            return_url: 'test'
-        }
+            return_url: 'https://www.hrminer.ru'
+        },
+        description: 'Test'
     };
 
     try {
