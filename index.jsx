@@ -3,7 +3,8 @@ import cors from 'cors';
 import multer from 'multer';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import fetch from 'node-fetch';
+import { YooCheckout  } from '@a2seven/yoo-checkout';
+import { ICreatePayment } from '@a2seven/yoo-checkout';
 
 import checkAuth from './utils/checkAuth.js';
 import { registerValidator, applicantValidator, loginValidator } from './utils/validator.js';
@@ -15,12 +16,12 @@ import * as ApplicantController from './controllers/ApplicantController.js';
 dotenv.config()
 
 const port = process.env.PORT || 5000
-
-//mongoose.set("strictQuery", false);
+const checkout = new YooCheckout({ shopId: process.env.YOOKASSA_SHOP_ID, secretKey: process.env.YOOKASSA_SECRET_KEY });
 
 const mongooseUrl = `mongodb://0.0.0.0:27017`
 const url1 = `mongodb://finfreedb:27017/admin`
 
+mongoose.set("strictQuery", false);
 mongoose
     .connect(`mongodb://mongo:27017/admin`, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('DB ok'))
@@ -36,6 +37,20 @@ const storage = multer.diskStorage({
         cb(null, file.originalname);
     },
 });
+
+const createPayload: ICreatePayment = {
+    amount: {
+        value: '99.00',
+        currency: 'RUB'
+    },
+    payment_method_data: {
+        type: 'bank_card'
+    },
+    confirmation: {
+        type: 'redirect',
+        return_url: 'test'
+    }
+};
 
 const upload = multer({storage});
 
@@ -62,38 +77,14 @@ app.delete('/applicants/:id', checkAuth, ApplicantController.remove);
 app.get('/create-pdf', ApplicantController.getDocument);
 
 app.post('/create-payment', async (req, res) => {
+    const idempotenceKey = req.body.id;
 
-    // Задаем параметры запроса к API ЮKassa
-    const apiUrl = 'https://api.yookassa.ru/v3/payments';
-    const auth = `210416:live_zRQmjLk6PKuj-2UraISLLHmJqnAtHMmw1ZRsLNER4iI`;
-    const headers = {
-        'Idempotence-Key': req.body.id,
-        'Content-Type': 'application/json',
-        'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
-    };
-
-    // Формируем тело запроса
-    const requestBody = {
-        amount: {
-            value: "99.00",
-            currency: "RUB"
-        },
-        capture: true,
-        confirmation: {
-            type: 'redirect',
-            return_url: `https://hrminer.ru`
-        },
-        description: `Заказ на ${req.body.name}`
-    };
-
-    // Отправляем запрос на создание платежа через API ЮKасса
-    const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(requestBody)
-    });
-
-    res.send(await response.json());
+    try {
+        const payment = await checkout.createPayment(createPayload, idempotenceKey);
+        res.send(payment)
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 app.listen(port, (err) => {
