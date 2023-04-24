@@ -3,7 +3,7 @@ import cors from 'cors';
 import multer from 'multer';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import YooCheckout from '@a2seven/yoo-checkout';
+import {YooCheckout} from '@a2seven/yoo-checkout';
 
 import checkAuth from './utils/checkAuth.js';
 import { registerValidator, applicantValidator, loginValidator } from './utils/validator.js';
