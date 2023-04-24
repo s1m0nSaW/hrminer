@@ -60,30 +60,33 @@ app.post('/applicants', applicantValidator, handleValidationErrors, ApplicantCon
 app.delete('/applicants/:id', checkAuth, ApplicantController.remove);
 app.get('/create-pdf', ApplicantController.getDocument);
 
-const yooCheckout = new YooCheckout({
+const checkout = new YooCheckout({
     shopId: process.env.YOOKASSA_SHOP_ID,
     secretKey: process.env.YOOKASSA_SECRET_KEY
   });
 
 app.post('/create-payment', async (req, res) => {
     const idempotenceKey = req.body.id;
-    const payment = {
+    const createPayload = {
         amount: {
-          value: '99.00',
-          currency: 'RUB'
+            value: '99.00',
+            currency: 'RUB'
+        },
+        payment_method_data: {
+            type: 'bank_card'
         },
         confirmation: {
-          type: 'redirect',
-          return_url: 'test'
-        },
-        description: 'Оплата заказа №12345'
-      };
-   
-      yooCheckout.createPayment(payment, idempotenceKey).then(result => {
-        res.send(result);
-      }).catch(error => {
+            type: 'redirect',
+            return_url: 'test'
+        }
+    };
+
+    try {
+        const payment = await checkout.createPayment(createPayload, idempotenceKey);
+        res.send(payment)
+    } catch (error) {
         res.send(error);
-      });
+    }
 });
 
 app.listen(port, (err) => {
