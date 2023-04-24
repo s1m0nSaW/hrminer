@@ -84,8 +84,8 @@ app.post('/create-payment', async (req, res) => {
     };
 
     try {
-        const payment = await checkout.createPayment(createPayload, idempotenceKey);
-        res.send(payment)
+        await checkout.createPayment(createPayload, idempotenceKey).then((data) => res.send(data));
+        
     } catch (error) {
         res.send(error);
     }
