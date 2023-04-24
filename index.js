@@ -10,7 +10,7 @@ import handleValidationErrors from './utils/handleValidationErrors.js';
 
 import * as EmployerController from './controllers/EmployerController.js';
 import * as ApplicantController from './controllers/ApplicantController.js';
-import { create } from './controllers/PaymentController.js';
+import { create } from './controllers/PaymentController.ts';
 
 dotenv.config()
 
