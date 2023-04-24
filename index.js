@@ -66,6 +66,7 @@ const yooCheckout = new YooCheckout({
   });
 
 app.post('/create-payment', async (req, res) => {
+    const idempotenceKey = req.body.id;
     const payment = {
         amount: {
           value: '99.00',
@@ -73,12 +74,12 @@ app.post('/create-payment', async (req, res) => {
         },
         confirmation: {
           type: 'redirect',
-          return_url: 'https://hrminer.ru'
+          return_url: 'test'
         },
         description: 'Оплата заказа №12345'
       };
    
-      yooCheckout.createPayment(payment).then(result => {
+      yooCheckout.createPayment(payment, idempotenceKey).then(result => {
         res.send(result);
       }).catch(error => {
         res.send(error);
