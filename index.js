@@ -61,8 +61,8 @@ app.delete('/applicants/:id', checkAuth, ApplicantController.remove);
 app.get('/create-pdf', ApplicantController.getDocument);
 
 const checkout = new YooCheckout({
-    shopId: '210416',
-    secretKey: 'live_zRQmjLk6PKuj-2UraISLLHmJqnAtHMmw1ZRsLNER4iI'
+    shopId: process.env.YOOKASSA_SHOP_ID,
+    secretKey: process.env.YOOKASSA_SECRET_KEY
   });
 
 app.post('/create-payment', async (req, res) => {
@@ -78,9 +78,9 @@ app.post('/create-payment', async (req, res) => {
         capture:true,
         confirmation: {
             type: 'redirect',
-            return_url: 'https://www.hrminer.ru'
+            return_url: `https://www.hrminer.ru/api/create-pdf?name=${req.body.name}&phone=${req.body.phone}&email=${req.body.email}&mbtiType=${req.body.mbtiType}`
         },
-        description: 'Test'
+        description: 'Test',
     };
 
     try {
