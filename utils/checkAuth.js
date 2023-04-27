@@ -4,8 +4,9 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 const secret = process.env.SECRET
+const password = process.env.PASSWORD
 
-export default (req, res, next) => {
+export const checkAuth (req, res, next) => {
   const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
 
   if (token) {
@@ -24,3 +25,20 @@ export default (req, res, next) => {
     });
   }
 };
+
+export const checkAdmin (req, res, next) => {
+  const pass = req.body.pass;
+  try {
+    if(pass === password){
+      next()
+    } else {
+      return res.status(403).json({
+        message: 'Нет доступа',
+      });
+    }
+  } catch (e) {
+    return res.status(403).json({
+      message: 'Нет доступа',
+    });
+  }
+}

@@ -3,9 +3,9 @@ import cors from 'cors';
 import multer from 'multer';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import {YooCheckout} from '@a2seven/yoo-checkout';
+import { YooCheckout } from '@a2seven/yoo-checkout';
 
-import checkAuth from './utils/checkAuth.js';
+import { checkAuth, checkAdmin } from './utils/checkAuth.js';
 import { registerValidator, applicantValidator, loginValidator } from './utils/validator.js';
 import handleValidationErrors from './utils/handleValidationErrors.js';
 
@@ -48,6 +48,10 @@ app.post('/upload', upload.single('image'), (req,res) => {
     });
 });
 
+app.get('/auth/get-all', checkAdmin, EmployerController.getAll)
+app.delete('/auth/admin/:id', checkAdmin, EmployerController.remove);
+app.delete('/applicants/admin/:id', checkAdmin, ApplicantController.remove);
+
 app.post('/auth/register', registerValidator, handleValidationErrors, EmployerController.register);
 app.post('/auth/login', loginValidator, handleValidationErrors, EmployerController.login);
 app.get('/auth/me', checkAuth, EmployerController.getMe);
@@ -57,8 +61,8 @@ app.delete('/auth/:id', checkAuth, EmployerController.remove);
 app.get('/test/:id', EmployerController.getEmployer);
 app.get('/applicants', checkAuth, ApplicantController.getAll);
 app.post('/applicants', applicantValidator, handleValidationErrors, ApplicantController.create);
-app.delete('/applicants/:id', checkAuth, ApplicantController.remove);
-app.get('/create-pdf', ApplicantController.getDocument);
+app.delete('/applicants/:id', ApplicantController.remove);
+app.get('/create-pdf', checkAuth, ApplicantController.getDocument);
 
 const checkout = new YooCheckout({
     shopId: process.env.YOOKASSA_SHOP_ID,
@@ -78,9 +82,8 @@ app.post('/create-payment', async (req, res) => {
         capture:true,
         confirmation: {
             type: 'redirect',
-            return_url: `https://www.hrminer.ru/api/create-pdf?name=${req.body.name}&phone=${req.body.phone}&email=${req.body.email}&mbtiType=${req.body.mbtiType}`
+            return_url: `https://www.hrminer.ru/lk/${req.body.employerId}`
         },
-        description: 'Test',
     };
 
     try {
