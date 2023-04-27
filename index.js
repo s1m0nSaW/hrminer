@@ -5,7 +5,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { YooCheckout } from '@a2seven/yoo-checkout';
 
-import { checkAuth, checkAdmin } from './utils/checkAuth.js';
+import checkAuth from './utils/checkAuth.js';
+import checkAdmin from './utils/checkAdmin.js';
 import { registerValidator, applicantValidator, loginValidator } from './utils/validator.js';
 import handleValidationErrors from './utils/handleValidationErrors.js';
 
