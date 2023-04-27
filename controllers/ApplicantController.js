@@ -26,6 +26,19 @@ export const create = async (req,res) => {
     }
 }
 
+export const getAllAplicants = async (req,res) => {
+    try {
+        const applicants = await ApplicantModel.find().exec();
+
+        res.json(applicants);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Не удалось найти соискателей',
+        });
+    }
+}
+
 export const getAll = async (req,res) => {
     try {
         const applicants = await ApplicantModel.find({ employer: req.userId }).exec();

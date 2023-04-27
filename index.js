@@ -49,7 +49,8 @@ app.post('/upload', upload.single('image'), (req,res) => {
     });
 });
 
-app.get('/auth/get-all', checkAdmin, EmployerController.getAll)
+app.get('/auth/get-all', checkAdmin, EmployerController.getAll);
+app.get('/applicants/admin', checkAdmin, ApplicantController.getAllAplicants);
 app.delete('/auth/admin/:id', checkAdmin, EmployerController.remove);
 app.delete('/applicants/admin/:id', checkAdmin, ApplicantController.remove);
 
