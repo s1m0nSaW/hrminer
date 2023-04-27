@@ -54,7 +54,7 @@ export const getAll = async (req,res) => {
 
 export const remove = async (req, res) => {
     try {
-        await ApplicantModel.findOneAndDelete(
+        ApplicantModel.findOneAndDelete(
             {
                 _id: req.params.id,
             },
