@@ -85,7 +85,7 @@ app.post('/create-payment', async (req, res) => {
         capture:true,
         confirmation: {
             type: 'redirect',
-            return_url: `https://www.hrminer.ru/lk/${req.body.employerId}`
+            return_url: `https://hrminer.ru/lk/${req.body.employerId}`
         },
     };
 
