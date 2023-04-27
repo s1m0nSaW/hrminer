@@ -20,6 +20,8 @@ export const register = async (req, res) => {
             passwordHash: hash,
             applicants: req.body.applicants,
             positions: req.body.positions,
+            number: req.body.number,
+            activity: req.body.activity,
         });
 
         const user = await doc.save();

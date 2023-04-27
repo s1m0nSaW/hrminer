@@ -25,6 +25,14 @@ const ApplicantSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    paymentId:{
+        type: String,
+        default: 'none',
+    },
+    status:{
+        type: String,
+        default: 'none',
+    },
 },{
     timestamps:true,
 },

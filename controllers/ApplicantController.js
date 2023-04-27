@@ -11,6 +11,8 @@ export const create = async (req,res) => {
             position: req.body.position,
             mbtiType: req.body.mbtiType,
             employer: req.body.employer,
+            paymentId: req.body.paymentId,
+            status: req.body.status,
         });
 
         await doc.save();

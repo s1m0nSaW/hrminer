@@ -18,6 +18,14 @@ const EmployerSchema = new mongoose.Schema({
         type: Array,
         default: [],
     },
+    number:{
+        type: String,
+        default: 'none',
+    },
+    activity:{
+        type: String,
+        default: 'none',
+    },
 },{
     timestamps:true,
 },
