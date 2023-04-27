@@ -28,6 +28,25 @@ export const create = async (req,res) => {
     }
 }
 
+export const update = async (req, res) => {
+    try {
+        const user = await ApplicantModel.findOneAndUpdate({
+            _id: req.params.id,
+        }, {$set:{
+            paymentId: req.body.paymentId,
+            status: req.body.status,
+        }},{ returnDocument: "after" });
+
+        if(user){res.json(user);}
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Не удалось обновить статус',
+        });
+    }
+};
+
 export const getAllAplicants = async (req,res) => {
     try {
         const applicants = await ApplicantModel.find().exec();

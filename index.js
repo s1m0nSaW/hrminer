@@ -63,7 +63,8 @@ app.delete('/auth/:id', checkAuth, EmployerController.remove);
 app.get('/test/:id', EmployerController.getEmployer);
 app.get('/applicants', checkAuth, ApplicantController.getAll);
 app.post('/applicants', applicantValidator, handleValidationErrors, ApplicantController.create);
-app.delete('/applicants/:id', ApplicantController.remove);
+app.delete('/applicants/:id', checkAuth, ApplicantController.remove);
+app.patch('/applicants/:id', checkAdmin, ApplicantController.update);
 app.get('/create-pdf', checkAuth, ApplicantController.getDocument);
 
 const checkout = new YooCheckout({
