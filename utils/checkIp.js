@@ -18,8 +18,10 @@ export default (req, res, next) {
     ); // проверяем, находится ли IP-адрес в списке допустимых
 
     if (isAllowed) {
+        console.log('проверку прошел')
         next(); // если IP-адрес допустимый, продолжаем выполнение запроса
     } else {
+        console.log('проверку не прошел')
         res.status(403).send('Access denied. Your IP address is not allowed.'); // если IP-адрес недопустимый, отправляем ответ с ошибкой 403
     }
 }
