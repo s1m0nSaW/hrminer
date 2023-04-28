@@ -1,15 +1,25 @@
 // middleware для проверки IP адресов
-export default (req, res, next) => {
-    const trustedIps = ['185.71.76.0/27','185.71.77.0/27','77.75.153.0/25','77.75.156.11','77.75.156.35','77.75.154.128/25','2a02:5180::/32']; // список доверенных IP адресов
-     // получаем IP адрес клиента из запроса
-    const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    if (trustedIps.indexOf(clientIp) !== -1) {
-        console.log('ip адрес проверка прошел')
-        // IP адрес клиента в списке доверенных, продолжаем выполнение
-        next();
+import ipRangeCheck from 'ip-range-check'
+
+const allowedIPs = [
+    '185.71.76.0/27',
+    '185.71.77.0/27',
+    '77.75.153.0/25',
+    '77.75.156.11',
+    '77.75.156.35',
+    '77.75.154.128/25',
+    '2a02:5180::/32',
+];
+
+export default (req, res, next) {
+    const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress; // получаем IP-адрес клиента
+    const isAllowed = allowedIPs.some((ip) =>
+        ipRangeCheck(clientIP, ip)
+    ); // проверяем, находится ли IP-адрес в списке допустимых
+
+    if (isAllowed) {
+        next(); // если IP-адрес допустимый, продолжаем выполнение запроса
     } else {
-        console.log('ip адрес проверку не прошел: ', clientIp)
-        // IP адрес клиента не в списке доверенных, отсылается ответ 403 Forbidden
-        res.sendStatus(403);
+        res.status(403).send('Access denied. Your IP address is not allowed.'); // если IP-адрес недопустимый, отправляем ответ с ошибкой 403
     }
-};
+}
