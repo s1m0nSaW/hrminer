@@ -82,7 +82,6 @@ export const payments = async (req, res) => {
         }, {$set:{
             status: data.object.status,
         }},{ returnDocument: "after" });
-        console.log(user)
         res.sendStatus(200)
     } catch (error) {
         console.log(error)
