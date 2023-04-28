@@ -73,6 +73,23 @@ export const getAll = async (req,res) => {
     }
 }
 
+export const payments = async (req, res) => {
+    const data = req.body;
+
+    try {
+        const user = await ApplicantModel.findOneAndUpdate({
+            paymentId: data.object.id,
+        }, {$set:{
+            status: data.object.status,
+        }},{ returnDocument: "after" });
+        console.log(user)
+        res.sendStatus(200)
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500)
+    }
+}
+
 export const remove = async (req, res) => {
     try {
         ApplicantModel.findOneAndDelete(

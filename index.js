@@ -7,6 +7,7 @@ import { YooCheckout } from '@a2seven/yoo-checkout';
 
 import checkAuth from './utils/checkAuth.js';
 import checkAdmin from './utils/checkAdmin.js';
+import checkIp from './utils/checkIp.js';
 import { registerValidator, applicantValidator, loginValidator } from './utils/validator.js';
 import handleValidationErrors from './utils/handleValidationErrors.js';
 
@@ -37,6 +38,8 @@ const storage = multer.diskStorage({
     },
 });
 
+
+
 const upload = multer({storage});
 
 app.use(express.json());
@@ -66,6 +69,8 @@ app.post('/applicants', applicantValidator, handleValidationErrors, ApplicantCon
 app.delete('/applicants/:id', checkAuth, ApplicantController.remove);
 app.patch('/applicants/:id', checkAuth, ApplicantController.update);
 app.get('/create-pdf', checkAuth, ApplicantController.getDocument);
+
+app.post('/payment-notification', checkIp, ApplicantController.payments);
 
 const checkout = new YooCheckout({
     shopId: process.env.YOOKASSA_SHOP_ID,
