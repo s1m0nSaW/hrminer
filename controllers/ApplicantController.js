@@ -75,7 +75,7 @@ export const getAll = async (req,res) => {
 
 export const payments = async (req, res) => {
     const data = req.body;
-
+    console.log(data)
     try {
         const user = await ApplicantModel.findOneAndUpdate({
             paymentId: data.object.id,
