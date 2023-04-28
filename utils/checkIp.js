@@ -7,7 +7,7 @@ export default (req, res, next) => {
         // IP адрес клиента в списке доверенных, продолжаем выполнение
         next();
     } else {
-        console.log('ip адрес проверку не прошел')
+        console.log('ip адрес проверку не прошел: ', clientIp)
         // IP адрес клиента не в списке доверенных, отсылается ответ 403 Forbidden
         res.sendStatus(403);
     }
