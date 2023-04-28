@@ -11,7 +11,7 @@ const allowedIPs = [
     '2a02:5180::/32',
 ];
 
-export default (req, res, next) {
+export default (req, res, next) => {
     const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress; // получаем IP-адрес клиента
     const isAllowed = allowedIPs.some((ip) =>
         ipRangeCheck(clientIP, ip)
