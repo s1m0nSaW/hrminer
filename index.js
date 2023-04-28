@@ -68,7 +68,7 @@ app.get('/applicants', checkAuth, ApplicantController.getAll);
 app.post('/applicants', applicantValidator, handleValidationErrors, ApplicantController.create);
 app.delete('/applicants/:id', checkAuth, ApplicantController.remove);
 app.patch('/applicants/:id', checkAuth, ApplicantController.update);
-app.get('/create-pdf', checkAuth, ApplicantController.getDocument);
+app.post('/create-pdf', checkAuth, ApplicantController.getDocument);
 
 app.post('/payment-notification', checkIp, ApplicantController.payments);
 
