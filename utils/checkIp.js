@@ -12,9 +12,10 @@ const allowedIPs = [
 ];
 
 export default (req, res, next) => {
+    
     const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress; // получаем IP-адрес клиента
     const isAllowed = allowedIPs.some((ip) =>
-        ipRangeCheck(clientIP, ip)
+        ipRangeCheck(clientIp, ip)
     ); // проверяем, находится ли IP-адрес в списке допустимых
 
     if (isAllowed) {
