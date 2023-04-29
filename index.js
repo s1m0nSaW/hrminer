@@ -72,15 +72,15 @@ app.post('/create-pdf', checkAuth, ApplicantController.getDocument);
 
 app.post('/payment-notification', checkIp, ApplicantController.payments);
 
-/*const checkout = new YooCheckout({
+const checkout = new YooCheckout({
     shopId: process.env.YOOKASSA_SHOP_ID,
     secretKey: process.env.YOOKASSA_SECRET_KEY
-});*/
+});
 
-const checkout = new YooCheckout({
+/*const checkout = new YooCheckout({
     shopId: "313869",
     secretKey: "test_enRIqTrgOlhjnYne6dMuMJSKKxO0AJRmZdMXY4rBLcI"
-});
+});*/
 
 app.post('/create-payment', async (req, res) => {
     const idempotenceKey = req.body.id;
