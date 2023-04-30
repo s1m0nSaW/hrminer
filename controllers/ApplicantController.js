@@ -188,7 +188,7 @@ export const getDocument = (req, res) => {
 
     res.attachment(`${name}_info.pdf`); // Задаем имя файла и заголовок ответа на скачивание
 
-    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text(`Рекомендации по работе от HR Майнер`,50,20, { align: 'center' });
+    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text(`Рекомендации по работе от https://hrminer.ru`,50,20, { align: 'center' });
     pdfDoc.moveDown();
     pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(`ФИО: ${name}`, { align: 'center' });
     pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(`Номер телефона: ${phone}`, { align: 'center' });
