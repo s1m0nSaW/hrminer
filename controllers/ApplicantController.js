@@ -188,38 +188,50 @@ export const getDocument = (req, res) => {
 
     res.attachment(`${name}_info.pdf`); // Задаем имя файла и заголовок ответа на скачивание
 
-    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text(`Рекомендации по работе от https://hrminer.ru`,50,20, { align: 'center' });
+    pdfDoc.fillColor('black').fontSize(12).font('fonts/Commissioner.ttf').text(`Отчёт сформирован на сайте: `,50,20, 
+    { continued: true });
+    pdfDoc.fillColor('blue').fontSize(12).font('fonts/Commissioner.ttf').text(`hrminer.ru`,50,20, 
+    { link: 'https://hrminer.ru/', underline: true });
     pdfDoc.moveDown();
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(`ФИО: ${name}`, { align: 'center' });
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(`Номер телефона: ${phone}`, { align: 'center' });
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(`Email: ${email}`, { align: 'center' });
+    pdfDoc.fillColor('black').fontSize(12).font('fonts/Commissioner.ttf').text(`ФИО: ${name}`, { align: 'center' });
+    pdfDoc.fontSize(12).font('fonts/Commissioner.ttf').text(`Номер телефона: ${phone}`, { align: 'center' });
+    pdfDoc.fontSize(12).font('fonts/Commissioner.ttf').text(`Email: ${email}`, { align: 'center' });
     pdfDoc.moveDown();
-    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).title1);
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).text1);
+    pdfDoc.fontSize(14).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).title1);
     pdfDoc.moveDown();
-    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).title2);
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).text2);
+    pdfDoc.fontSize(12).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).text1);
     pdfDoc.moveDown();
-    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).title3);
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).text3);
+    pdfDoc.fontSize(14).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).title2);
     pdfDoc.moveDown();
-    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).title4);
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).text4);
+    pdfDoc.fontSize(12).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).text2);
+    pdfDoc.moveDown();
+    pdfDoc.fontSize(14).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).title3);
+    pdfDoc.moveDown();
+    pdfDoc.fontSize(12).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).text3);
+    pdfDoc.moveDown();
+    pdfDoc.fontSize(14).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).title4);
+    pdfDoc.moveDown();
+    pdfDoc.fontSize(12).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).text4);
     pdfDoc.addPage();
-    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).title5,50,30);
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).text5);
+    pdfDoc.fontSize(14).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).title5,50,30);
     pdfDoc.moveDown();
-    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).title6);
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).text6);
+    pdfDoc.fontSize(12).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).text5);
     pdfDoc.moveDown();
-    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text("Как мотивировать:"); 
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).text7);
+    pdfDoc.fontSize(14).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).title6);
     pdfDoc.moveDown();
-    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).title8);
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).text8);
+    pdfDoc.fontSize(12).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).text6);
     pdfDoc.moveDown();
-    pdfDoc.fontSize(20).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).title9);
-    pdfDoc.fontSize(14).font('fonts/BonaNova.ttf').text(getDescription(mbtiType).text9);
+    pdfDoc.fontSize(14).font('fonts/Commissioner.ttf').text("Как мотивировать:"); 
+    pdfDoc.moveDown();
+    pdfDoc.fontSize(12).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).text7);
+    pdfDoc.moveDown();
+    pdfDoc.fontSize(14).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).title8);
+    pdfDoc.moveDown();
+    pdfDoc.fontSize(12).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).text8);
+    pdfDoc.moveDown();
+    pdfDoc.fontSize(14).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).title9);
+    pdfDoc.moveDown();
+    pdfDoc.fontSize(12).font('fonts/Commissioner.ttf').text(getDescription(mbtiType).text9);
 
 
     pdfDoc.pipe(res); // Отправляем pdf документ в ответ на запрос
