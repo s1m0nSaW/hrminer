@@ -19,7 +19,7 @@ dotenv.config()
 const port = process.env.PORT || 5000
 
 const mongooseUrl = `mongodb://0.0.0.0:27017`
-const url1 = `mongodb://finfreedb:27017/admin`
+const url1 = `mongodb://mongo:27017/admin` //нужно поменять
 
 mongoose.set("strictQuery", false);
 mongoose
@@ -86,7 +86,7 @@ app.post('/create-payment', async (req, res) => {
     const idempotenceKey = req.body.id;
     const createPayload = {
         amount: {
-            value: '99.00',
+            value: '199.00',
             currency: 'RUB'
         },
         payment_method_data: {
